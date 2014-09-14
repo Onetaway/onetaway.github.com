@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://Onetaway.github.io
-title: 编程是一种哲学
+title: Coding is Art
 subtitle: Learning On The Way
 author: Onet away
 simple_search: https://www.google.com/search
@@ -17,9 +17,9 @@ date_format: "ordinal"
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
-subscribe_email:
+subscribe_email: onetawayiosdev@gmail.com
 # RSS feeds can list your email address if you like
-email:
+email: onetawayiosdev@gmail.com
 
 # ----------------------- #
 #    Jekyll & Plugins     #
