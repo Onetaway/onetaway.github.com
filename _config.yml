@@ -74,6 +74,10 @@ weibo_user: onetaway
 dribbble_user:
 weibo_share: true
 
+# Twitter
+twitter_user: Onetaway
+twitter_tweet_button: true
+
 # Google +1
 google_plus_one: false
 google_plus_one_size: medium
