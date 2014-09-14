@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[编程是一种哲学]]></title>
+  <title><![CDATA[Coding is Art]]></title>
   <link href="http://Onetaway.github.io/atom.xml" rel="self"/>
   <link href="http://Onetaway.github.io/"/>
-  <updated>2014-09-14T23:20:59+08:00</updated>
+  <updated>2014-09-14T23:40:50+08:00</updated>
   <id>http://Onetaway.github.io/</id>
   <author>
     <name><![CDATA[Onet away]]></name>
-    
+    <email><![CDATA[onetawayiosdev@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
