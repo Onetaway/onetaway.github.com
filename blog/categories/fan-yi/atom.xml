@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 翻译 | Coding is Art]]></title>
   <link href="http://Onetaway.github.io/blog/categories/fan-yi/atom.xml" rel="self"/>
   <link href="http://Onetaway.github.io/"/>
-  <updated>2014-09-15T00:04:24+08:00</updated>
+  <updated>2014-09-18T18:00:32+08:00</updated>
   <id>http://Onetaway.github.io/</id>
   <author>
     <name><![CDATA[Onet away]]></name>
@@ -12,6 +12,488 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[API设计]]></title>
+    <link href="http://Onetaway.github.io/blog/2014/09/18/apishe-ji/"/>
+    <updated>2014-09-18T15:33:15+08:00</updated>
+    <id>http://Onetaway.github.io/blog/2014/09/18/apishe-ji</id>
+    <content type="html"><![CDATA[<h2>API设计</h2>
+
+<p>本文翻译自 Matt Gemmell 的经典博文，想阅读英文原版的同学请直接点击<a href="http://mattgemmell.com/api-design/">这里</a>。下面开始正文内容。</p>
+
+<p>我在开发中做的最多的一件事就是为可重用的组件设计 API。这些组件通常都是给 iOS 用的(尽管有时候，它们也适用于 OS X)，通常是 GUI 控件或者是某种视图。</p>
+
+<p>这些年我设计了许多组件 API，包括像苹果的客户端，因此我学到了很多这方面的东西。我也定期发布<a href="http://mattgemmell.com/source/">开源组件</a>，我收到的反馈帮助我形成了 API 设计的准则，我想与你们分享这些。</p>
+
+<p>这是一个重要的话题，无论你是一个开源软件的贡献者，还是一个工作在大型项目团队里的成员，或者你仅仅是编写自己的软件。就像第一次启动应用程序的经历一样，你的 API 会给使用你代码的开发者留下第一印象，这会在很大程度上决定他们是使用你的 API 还是直接扔掉。</p>
+
+<p>in a way that’s specific to the popular platforms.</p>
+
+<p>API 是开发者的用户体验(UX)。令我惊讶的是，在这方面没有很多资料。</p>
+
+<p>我打算使用我最新发布的开源 GUI 组件 <a href="http://mattgemmell.com/mgtilemenu/">MGTileMenu</a> 作为例子，来介绍这些原则。如果你喜欢的话，你可以在<a href="http://mattgemmell.com/mgtilemenu/">这里</a>阅读关于 MGTileMenu 的一切东西。</p>
+
+<h3>理想的状态</h3>
+
+<p>API 设计和用户界面以及用户体验设计非常相似。你的目标听众具有不同的需求和特性，但是归根到底他们也只是希望把事情完成的人。除了友好的、可用的 app UI，你还需要尽力让你的 API：</p>
+
+<ol>
+<li>直观的</li>
+<li>宽容的</li>
+<li>光滑的</li>
+</ol>
+
+
+<p>因为软件的任何一部分都是设计给人使用的，所以我们不得不考虑用例。我们必须要让需要经常做的事情变得简单，同时没有过多的配置。默认的行为应该和原来一样有用，且容易选择。软件应该是可发现的，并且应该允许用户从已知的范式中生成新的东西。这些准则和我们在创建 UI 的时候是一样的</p>
+
+<h3>开发者的接口</h3>
+
+<p>开发者和组件打交道主要是通过下面这四个显示的方式：</p>
+
+<ol>
+<li>类<strong>接口</strong>：它揭示了属性和方法。</li>
+<li>相关的<strong>代理协议</strong></li>
+<li>合适的<strong>数据源协议</strong></li>
+<li>已提供的<strong>通知</strong></li>
+</ol>
+
+
+<p>我们必须明智且审慎地设计这些。当你在思考 API 的时候，有两个关键的问题：</p>
+
+<ul>
+<li>What is the control?</li>
+</ul>
+
+
+<p>This influences the interface and convenience methods. Is it a button? A slider? Your interface is obvious. Your convenience methods will follow the standard semantics of the control.</p>
+
+<ul>
+<li>What is the control like?</li>
+</ul>
+
+
+<p>This influences the delegate and/or data-source model and notifications. If it’s a new type of control, is it essentially very similar to something else? An outline view is a linear table. A calendar widget is a date-picker. A collection of commands presented with a unified presentation is a menu.</p>
+
+<p>Our core goal is consistency with existing components and models, so that we can turn an unfamiliar control into something the developer already understands. Use standard APIs, models, and patterns wherever possible (and that’s almost always). Familiarity and intuitiveness are just as important at code level as they are for the end user.</p>
+
+<p>Let’s look at the four components of the component API mentioned above.</p>
+
+<p>Class interface</p>
+
+<p>Here’s the interface file for MGTileMenu.</p>
+
+<p>Before we even start talking about the specifics of the interface, we have a couple of over-arching rules:</p>
+
+<p>Rule 1: Use the local dialect</p>
+
+<p>One the most common mistakes I see in API design is the use of foreign conventions. APIs belong to a platform and a developer ecosystem. You simply can’t use whatever idioms and architectures you’re used to from a different platform; to do so is to pollute your current codebase and to damage the productivity of your fellow developers.</p>
+
+<p>Learn your target platform’s conventions before coding. For example, on iOS or OS X, don’t use exceptions for control flow. Name your methods in an appropriate manner (which usually means sufficiently verbose, but should also of course be sufficiently succinct).</p>
+
+<p>Learn what a protocol is, and a delegate, and a category. Use that terminology throughout your code. Learn the relevant naming schemes for constructors and destructors. Obey native memory management rules. The vocabulary and the grammar are indivisible, and you’re either developing for a given platform or you’re not.</p>
+
+<p>Rule 2: Design decoupled</p>
+
+<p>Any component should be designed such that it’s not coupled to the project you created it for, and if it’s a GUI control or view, it should at least display something by default. Use the existing framework classes as a guide, and maintain loose coupling with delegate protocols, well-designed/named API methods and notifications where appropriate.</p>
+
+<p>An obvious but very effective way to do this is to create a new project for each component, and develop the component literally in isolation. Force yourself to use your own API. Stay away from the temptation of tying unrelated classes together. Start as you mean to go on.</p>
+
+<p>With that said, let’s talk about the class interface proper. Initialisation methods are one of the most important parts of the interface, because they’re how people get started with your component. Your class will have certain required settings for initial configuration. So, an obvious rule:</p>
+
+<p>Rule 3: Required settings should be initializer parameters</p>
+
+<p>If something needs to be set, don’t wait for it - require it up-front, immediately, and return nil if you don’t get something acceptable.</p>
+
+<p>1
+- (id)initWithDelegate:(id<MGTileMenuDelegate>)theDelegate; // required parameter; cannot be nil.
+Rule 4: Allow access to initializer parameters</p>
+
+<p>This is a corollary to the previous rule: remember not to just swallow those parameters. Give access to them via properties, and note if they might have been massaged in any way (sanitised, or otherwise modified).</p>
+
+<p>1
+@property (nonatomic, weak, readonly) id<MGTileMenuDelegate> delegate; // must be specified via initializer method.
+These previous two examples raise a further general point.</p>
+
+<p>Rule 5: Comment your header files (including defaults)</p>
+
+<p>Realistically, you won’t always provide separate, standalone documentation for a component. If you don’t provide documentation, your .h files (and demo app) are your docs. They should be suitably written, and by ‘suitably’ I mean:</p>
+
+<p>Sufficiently detailed, but no more so. Be succinct.
+For professionals. Assume things that are safe to assume. Don’t waffle.
+Particularly, you should briefly note default values beside properties or accessors; it’s much easier to scan those in the header file than to try to locate your initialisation code in the implementation.</p>
+
+<p>1
+2
+3
+@property (nonatomic) CGGradientRef tileGradient; // gradient to apply to tile backgrounds (default: a lovely blue)
+@property (nonatomic) NSInteger selectionBorderWidth; // default: 5 pixels
+@property (nonatomic) CGGradientRef selectionGradient; // default: a subtle white (top) to grey (bottom) gradient
+Rule 6: Get up and running in 3 lines</p>
+
+<p>Your class should be designed so that it requires minimal code to integrate (delegate/data-source protocol included, about which more later). Excluding delegate methods, you should aim to make it usable at least for testing purposes with only 3 lines of code.</p>
+
+<p>Those lines are:</p>
+
+<p>Instantiate it.
+Basically configure, so it will show and/or do something.
+Display or otherwise activate it.
+That should be it. Anything substantially more onerous is a code smell. Here are the relevant lines from MGTileMenu’s demo app:</p>
+
+<p>1
+2
+3
+4
+5
+6
+7
+8
+// Instantiate.
+tileController = [[MGTileMenuController alloc] initWithDelegate:self];</p>
+
+<p>// Configure.
+tileController.dismissAfterTileActivated = NO; // to make it easier to play with in the demo app.</p>
+
+<p>// Display.
+[tileController displayMenuCenteredOnPoint:loc inView:self.view];
+Rule 7: A fat demo usually means a broken component</p>
+
+<p>Another corollary: the size of your demo harness is a quality metric for your component, where smaller is better. Demo harnesses/code should be as small and thin as possible (making suitable allowances for demos that aim to explore all of a component’s customisation or functionality).</p>
+
+<p>The core required code to turn an empty Xcode app template into a demo of your app should be minimised. It’s not OK to required copy-pasted boilerplate to get your component working, and having an example of it in your demo isn’t an excuse.</p>
+
+<p>Rule 8: Anticipate customisation scenarios</p>
+
+<p>My standard rule for apps is don’t give the user options. Choose sensible defaults to fit the majority, and skip the Preferences window. Good software, after all, is opinionated.</p>
+
+<p>The situation is a bit different with components, because the scenarios of use aren’t as clear-cut. You can certainly make a component that only fits one specific situation, but usually we want some flexibility. You never know exactly how another developer is going to use your component, so you have to build in some generality.</p>
+
+<p>It’s important to choose your customisation points carefully. It’s particularly important to consider dependencies - not in the compiling/linking sense, but rather the logical relationships between types of customisation. I approach this by trying not to think of customisation at the instance-variable level, but rather at the “aspect” level. What aspects of your component do you want to allow customisation of? Then you work out what specific properties to expose.</p>
+
+<p>It’s easy to cripple a certain type of customisation by not exposing sufficient configuration points. Some examples:</p>
+
+<p>Don’t expose width and height without considering corner radius too.
+Don’t expose background colour without highlighted background colour.
+Don’t expose size without spacing.
+The specifics depend on the component, but just try to consider the relationships between properties, from the point of view of either appearance or functionality. Empathise with the developer. Be flexible, without abandoning the identity of the component.</p>
+
+<p>1
+2
+3
+4
+5
+6
+@property (nonatomic) BOOL dismissAfterTileActivated; // automatically dismiss menu after a tile is activated (YES; default)
+@property (nonatomic) BOOL rightHanded; // leave gap for right-handed finger (YES; default) or left-handed (NO)</p>
+
+<p>@property (nonatomic) NSInteger tileSide; // width and height of each tile, in pixels (default 72 pixels)
+@property (nonatomic) NSInteger tileGap; // horizontal and vertical gaps between tiles, in pixels (default: 20 pixels)
+@property (nonatomic) CGFloat cornerRadius; // corner radius for bezel and all tiles, in pixels (default: 12.0 pixels)
+Let common sense be your guide. Decide what options will serve 70% or so of the usage situations you can think of, and provide those options. Let your delegate methods and code structure serve the rest.</p>
+
+<p>Rule 9: More properties, fewer actions</p>
+
+<p>There’s a particular pattern that keeps cropping up in components that I like - some of which are from standard frameworks, some open source from third parties, and some even my own. It’s a ratio of the number of properties (or accessors, or customisation points) on a component, to the number of “do stuff” methods (i.e. all the other stuff, from initializers to state-updating).</p>
+
+<p>It’s pretty much always more properties, and fewer ‘actions’ (again, that’s not actions in the Interface Builder sense). MGTileMenu has an initializer, and four actual for-public-use methods (one of which is a convenience that calls another). In terms of customisation points, it has four times as many. I think that’s a good ratio, and leads to components that are both concise in actual functionality, but also flexible in customisation.</p>
+
+<p>1
+2
+3
+4
+- (id)initWithDelegate:(id<MGTileMenuDelegate>)theDelegate; // required parameter; cannot be nil.
+- (CGPoint)displayMenuPage:(NSInteger)pageNum centeredOnPoint:(CGPoint)centerPt inView:(UIView *)parentView; // zero-based pageNum
+- (void)dismissMenu;
+- (void)switchToPage:(NSInteger)pageNum; // zero-based pageNum
+Rule 10: Use controls in your controls</p>
+
+<p>A great way to simplify both the API and implementation of your component is to use existing controls in your implementation. A unified presentation doesn’t meant that you can’t build something out of pre-existing components (indeed, that’s one of the basic principles of good software engineering).</p>
+
+<p>Consider how UITableViewCell and UIButton have simple APIs because they use sub-controls such as UIImageViews and UILabels. You can, and should, do that too - and if appropriate, expose the corresponding sub-controls to keep your class interface concise and consistent.</p>
+
+<p>In MGTileMenu, for example, the tiles are regular UIButtons (not even subclasses). This drastically simplified the implementation compared to drawing the tiles within a single custom view, tracking input events, and supporting accessibility.</p>
+
+<p>Rule 11: Convenient for you is convenient for me</p>
+
+<p>You’ll naturally add convenience methods during implementation, and the instinct is to keep them private. Instead, consider whether you can expose them for use by those who integrate your component into their own apps.</p>
+
+<p>Whatever made it more convenient for you to add a method or function may apply to those developers too.</p>
+
+<p>For example, in MGTileMenu I created these convenience functions:</p>
+
+<p>1
+2
+3
+CGRect MGMinimallyOverlapRects(CGRect inner, CGRect outer, CGFloat padding);</p>
+
+<p>CGGradientRef MGCreateGradientWithColors(UIColor <em>topColorRGB, UIColor </em>bottomColorRGB); // assumes colors in RGB colorspace
+The first helps me shift a tile menu so that it’s fully visible within its parent view (which might be handy for another developer, if they’re providing ancillary UI related to the menu), and the second returns a Core Graphics gradient from two UIColors, which I used when setting a default background for the tiles (and another developer may find handy when implementing MGTileMenu’s delegate protocol, to give tiles custom gradients).</p>
+
+<p>Rule 12: Magic is OK. Numbers aren’t.</p>
+
+<p>Sooner or later, you’ll put magic into your component. Hopefully there’ll be plenty of the Steve Jobs type of intuitive, delightful, empowering magic, but what I’m talking about is things like numbers and other values that have special meaning in your code. A common example is -1, to indicate a unique thing in a set, or a special situation.</p>
+
+<p>It’s fine. It’s genuinely OK to do that. What’s not OK, though, is needlessly putting mysterious raw values throughout your code, and it’s especially not OK to expose that in the API. If you’re exposing magic, dress them up for consumption. Use #defines or a constant or something. Just make them presentable and understandable.</p>
+
+<p>1
+2
+// Used for the page-switching tile in methods expecting a tile-number.</p>
+
+<h1>define MG_PAGE_SWITCHING_TILE_INDEX -1</h1>
+
+<p>Delegate and data-source protocols</p>
+
+<p>Delegate protocols are fantastic. They’re an easy, familiar and flexible way to embrace the MVC pattern, and they reinforce good habits of loose coupling and judicious API design.</p>
+
+<p>Here’s MGTileMenu’s delegate protocol.</p>
+
+<p>There are classic delegate and data-source protocols that we can draw on for almost any component. If you’re displaying data, the One True Data-Source Protocol is likely to be something very close to:</p>
+
+<p>How many things do I have?
+What’s the value for property Y of thing X?
+Similarly, in almost any situation, the One True Delegate Protocol is likely to take the form:</p>
+
+<p>Should this thing do that?
+This thing is about to do that.
+This thing just did that.
+This is also known as the Should, Will, Did protocol pattern, and it ties neatly in with the Will-Did notification pattern too, about which more later.</p>
+
+<p>Let me mention something you might find controversial: I find it perfectly acceptable to conflate the delegate with the data-source (i.e. combine them into a single protocol). I do it with MGTileMenu and several other components, for example.</p>
+
+<p>I fully accept the principle of separating them, and I can think of many cases where you’d want to keep them separate. Apple keeps them separate too, generally. That’s fine.</p>
+
+<p>In my experience, though, in most cases it’s fine to combine them. Most people handle data-source methods and delegate methods in the same place. I’ve never had a complaint about unifying those protocols, and I can scarcely remember a situation where even existing separate protocols were handled in different places.</p>
+
+<p>If you care about purity, or have a need to separate delegate from data-source, then obviously you should do so. I just don’t think you need to feel bad if you combine them.</p>
+
+<p>Rule 13: Limit ‘required’ delegate methods</p>
+
+<p>Be very careful when choosing which of your delegate methods are required. Too many required methods tends to indicate:</p>
+
+<p>Poor choice of default behaviour.
+Too much of your own politics are in your code.
+A well-designed component should need very, very few required delegate methods - just the bare minimum to do whatever it does. Choose carefully. Equally, remember that it’s easy to add optional methods later, but it’s hard to turn optional ones into required ones (people will complain, and rightly so).</p>
+
+<p>MGTileMenu has five required methods, four of which are data-source methods:</p>
+
+<p>1
+2
+3
+4
+- (NSInteger)numberOfTilesInMenu:(MGTileMenuController <em>)tileMenu; // in total (will be shown in groups of up to 5 per page)
+- (UIImage </em>)imageForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController <em>)tileMenu; // zero-based tileNumber
+- (NSString </em>)labelForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController <em>)tileMenu; // zero-based tileNumber
+- (NSString </em>)descriptionForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
+The first two follow the One True Data-Source Protocol. The third and fourth do too, but they also expose my politics: I think that software should be accessible, and I’m forcing you to supply a label and hint for each tile for VoiceOver to read. I’m comfortable with it.</p>
+
+<p>There’s also one delegate method proper:</p>
+
+<p>1
+- (void)tileMenu:(MGTileMenuController *)tileMenu didActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
+That one is required because it’s how you find out that a tile was activated. If you’re not willing to pay attention to that, MGTileMenu will do nothing useful, and you might as well not be using it at all. So, it’s required.</p>
+
+<p>Rule 14: Design for accessibility</p>
+
+<p>Following immediately on from the last rule: make things accessible. Don’t tack it on at the end, either: design for accessibility from the start. If you follow the “use controls in your controls” rule, you probably get this almost for free.</p>
+
+<p>Delegate (or rather, data-source) methods, as shown above, are a great place to twist the arm of another developer to make them at least provide something for VoiceOver. And if you can automatically repurpose something visual (like a displayed text label) as a VoiceOver label, so much the better (again, in most cases VoiceOver already handles this for you).</p>
+
+<p>Be socially conscious. Make it hard not to support accessibility. I also wrote an article about supporting VoiceOver in iOS apps, which Apple recommends to companies who contact them about accessibility programming. I recommend it too, but then I wrote it, so you’d expect that.</p>
+
+<p>Rule 15: Use semantic objects for parameters</p>
+
+<p>This doesn’t just apply to protocols, but protocols are where it’s particularly important. Use actual, first-class, semantically-appropriate objects for data, even if it’s more hassle for you to work with in your implementation.</p>
+
+<p>If you’re asking for a date, don’t accept numbers - get an actual NSDate object. There are objects or structures for just about everything, and you should use them as intended. Create a class if you need to (you probably won’t need to).</p>
+
+<p>The one standard exception, of course, is indices - there’s no reason for them to be anything but primitives, since NSNumber adds nothing that’s semantically important enough to offset the bundling/unbundling inconvenience.</p>
+
+<p>Rule 16: Enhance the API if semantics don’t fit</p>
+
+<p>I see this all the time. I mentioned earlier how you can think of almost any new, custom control as being substantially like something that already exists (often, it’s like the already-existing thing that you’re using behind the scenes for your implementation).</p>
+
+<p>That’s great, and you’re very clever, but semantics trump similarity. It’s absolutely fine (and wonderful) to layer a new API on top of an existing one, in order to make the semantics fit. For example:</p>
+
+<p>A contact list implemented with a table should have a contacts-related API
+A month-view calendar implemented with a grid should have a date-related API
+And so forth. Don’t force yourself (or other developers) to constantly be mentally converting between an abstract implementation API and the actual semantics of the component - make the API reflect the actual purpose of the component instead.</p>
+
+<p>MGTileMenu’s delegate protocol does that by treating the menu not as a collection of UIButtons (the implementation), but rather as a unified menu, with numbered tiles each of which have relevant display properties.</p>
+
+<p>Rule 17: Highlighting is interesting</p>
+
+<p>I learned this one by having to go back and add new delegate methods and notifications to APIs I thought were finished. For interactive controls, highlighting is interesting. By ‘interesting’, I mean of potential significance to the surrounding app.</p>
+
+<p>Any control will inform the app (in one sense or another, perhaps just by calling an action method) when it has been fully triggered, but comparatively few will notify when they’ve been visually highlighted (selected, pressed) or unhighlighted without being triggered. It turns out that that’s actually pretty important. The app might want to:</p>
+
+<p>Add, remove or reposition ancillary UI.
+Update some other part of its display.
+Offer some contextual help.
+Some other thing you can’t possibly foresee.
+Highlighting is certainly an example of an optional set of delegate methods, but they’re important to have, and almost always trivial to implement.</p>
+
+<p>1
+2
+- (void)tileMenu:(MGTileMenuController <em>)tileMenu didSelectTile:(NSInteger)tileNumber; // zero-based tileNumber
+- (void)tileMenu:(MGTileMenuController </em>)tileMenu didDeselectTile:(NSInteger)tileNumber; // zero-based tileNumber
+Rule 18: Optional methods aren’t a commitment</p>
+
+<p>Many of us approach optional delegate methods as an either-or situation: if you don’t implement them, you get the default behaviour, and if you do, then you’re totally responsible for what happens. That’s not ideal.</p>
+
+<p>In any implementation which provides an optional delegate method, you should still fall back on the default behaviour even if the method is implemented, but doesn’t return something sensible. It sounds obvious, but it’s amazing how many components will blithely let delegate objects return any kind of craziness without sanity-checking, just because the delegate has somehow promised to behave itself by implementing the method.</p>
+
+<p>I’m talking particularly about visual customisations, such as background colours or images. Consider very, very carefully whether you shouldn’t intervene in that case, and fall back upon your default appearance. Did they really want to show nothing? Does that even make sense? Will it make the control look broken? If so, step in, and serve up the default just as if the delegate method was never implemented in the first place.</p>
+
+<p>Relatedly, have a documented, standard, unsurprising way to deliberately invoke the default behaviour via returning something like nil from each optional delegate method.</p>
+
+<p>MGTileMenu, for example, has a relatively complex hierarchy of ways you can customise tile backgrounds. You can implement any (or all, or none) of three optional delegate methods to provide a background image, gradient or colour for each tile, in that priority order. You can also opt into the default behaviour for any tile at any time, by returning nil or NULL as is appropriate to the type.</p>
+
+<p>You’ll have to try fairly hard (by returning clearColor, or an empty UIImage object) to really, really make a tile’s background completely transparent.</p>
+
+<p>Rule 19: Always say who’s talking</p>
+
+<p>This is a simple rule, and an equally simple mistake to make. In your delegate methods, always pass the sender as a parameter. Always. Even for singletons. Even for things you cannot conceive would ever be used more than once simultaneously. No exceptions.</p>
+
+<p>This:</p>
+
+<p>1
+- (void)tileMenu:(MGTileMenuController *)tileMenu didActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
+Not this:</p>
+
+<p>1
+2
+- (void)tileMenuDidActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
+// Um, WHICH menu?
+Rule 20: Put distinguishing params first in query methods</p>
+
+<p>The One True Data-Source Protocol should always have query methods such that the most interesting thing goes first. The specific quality or property you’re requesting a value for. Like this:</p>
+
+<p>1
+- (UIImage <em>)imageForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController </em>)tileMenu; // zero-based tileNumber
+Not like this:</p>
+
+<p>1
+- (UIImage <em>)tileMenu:(MGTileMenuController </em>)tileMenu imageForTile:(NSInteger)tileNumber;
+The return type should flow naturally into the first part of the method name, without causing surprise. Data-source protocols often have many similarly-named methods, so keep the unique and interesting parts at the very start. Easier to read, and easier to autocomplete.</p>
+
+<p>Some people have pointed out that Apple’s UITableViewDataSource protocol doesn’t do it that way, and instead puts the sender first, for example:</p>
+
+<p>1
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+All I can say is: I’m aware of the difference. I stand by my argument.</p>
+
+<p>Rule 21: Put the sender first in notification methods</p>
+
+<p>The One True Delegate Protocol, however, isn’t for queries but rather for notifications. In this situation, you put the sender first (following our “say who’s talking” rule above).</p>
+
+<p>1
+- (void)tileMenu:(MGTileMenuController *)tileMenu willSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
+This follows how an interaction would go between two people having a conversation. You wouldn’t just jump in and say “She’s going to be late,” because the other person would have to ask “Who?”</p>
+
+<p>Instead, you start by saying who’s talking. It’s a convention, and handily distinguishes query (data-source) from notification (delegate) methods.</p>
+
+<p>Rule 22: If a convention is broken, throw it away</p>
+
+<p>Having said all of the above, remember that convention and consistency must at some point bow to superior judgement - in this case, yours. If a convention is broken, skip it without worrying. Rename things, if yours is truly better.</p>
+
+<p>As an example, there’s a pre-existing convention for menu controls whereby you can enable or disable menu-items via the delegate, using a method called validateMenuItem:. For the sake of consistency, I was tempted to use that same method name as part of my delegate protocol. I decided not to, because:</p>
+
+<p>It has a horrible, horrible name. “Validate”? That doesn’t say “enable” to me.
+It’s imperative, where in my case I’m really asking a question.
+It broke the naming scheme of my other delegate methods.
+Instead, I went for something simpler and more understandable, if unconventionally-named:</p>
+
+<p>1
+- (BOOL)isTileEnabled:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
+We can debate the specific wording, but if you encountered that method you’d know what it was for and how to use it right away. To me, that’s better.</p>
+
+<p>Notifications</p>
+
+<p>Notifications are the other half of delegate protocols. My position is that, if you’re using a delegate protocol (you should, if it’s at all appropriate), then it’s incomplete until you add the notifications that naturally follow from it.</p>
+
+<p>In MGTileMenu, you can find the notifications in the interface file for MGTileMenuController.</p>
+
+<p>Rule 23: Notifications follow delegate methods</p>
+
+<p>There’s a natural correspondence between delegate methods (proper; not data-source methods) and notifications. You use them in the same places in your code, and for exactly the same purpose.</p>
+
+<p>If you have a delegate method that tells the delegate about something happening, you should usually provide a notification for that same purpose. Take your notification-like delegate methods, remove the interrogatory ones (the should methods), and you have your list of notifications to implement.</p>
+
+<p>The delegate methods’ parameters should match up with the notifications’ userInfo contents, with the obvious exception that you pass the sender as the notification’s object, rather than bundled up in the info dictionary.</p>
+
+<p>Delegate methods:</p>
+
+<p>1
+2
+- (void)tileMenuWillDisplay:(MGTileMenuController <em>)tileMenu;
+- (void)tileMenuDidDisplay:(MGTileMenuController </em>)tileMenu;
+And corresponding notifications:</p>
+
+<p>1
+2
+extern NSString <em>MGTileMenuWillDisplayNotification; // menu will be shown
+extern NSString </em>MGTileMenuDidDisplayNotification; // menu has been shown
+Rule 24: Be generous with notifications’ userInfo</p>
+
+<p>Give a notification the information it requires in order to be useful. Remember that notification receivers may (and almost always will) not have anything to do with the delegate or data-source chain for your component.</p>
+
+<p>Ask yourself what would be useful, and provide that information. At the very least, you must ensure that all arguments provided to the corresponding delegate method are wrapped up in the userInfo object.</p>
+
+<p>Delegate methods:</p>
+
+<p>1
+2
+- (void)tileMenu:(MGTileMenuController <em>)tileMenu willSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
+- (void)tileMenu:(MGTileMenuController </em>)tileMenu didSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
+And corresponding notifications:</p>
+
+<p>1
+2
+3
+4
+// The following notifications have a user info key &ldquo;MGPageNumber&rdquo; with an NSNumber (integer, zero-based) value.</p>
+
+<h1>define MGPageNumberKey @&ldquo;MGPageNumber&rdquo;</h1>
+
+<p>extern NSString <em>MGTileMenuWillSwitchToPageNotification; // menu will switch to the given page
+extern NSString </em>MGTileMenuDidSwitchToPageNotification; // menu did switch to the given page
+Rule 25: Test the hell out of it</p>
+
+<p>Finally, something we all already know. Software engineering and professionalism 101: make sure it actually works.</p>
+
+<p>Whether testing means formal TDD is up to you, but testing itself isn’t optional. Every optional delegate method. Every posted notification. Every point of customisation, in every possible combination. Components provide a thousand opportunities for subtle issues.</p>
+
+<p>There will be bugs. Find them and fix them first. If you’re pushed for time, cut a feature and debug instead. Thou shalt suffer no bugs to ship.</p>
+
+<p>Final thoughts</p>
+
+<p>I’ve formulated the above rules by learning the hard way, through years of making mistakes while creating components and their APIs. I do try to practise what I preach, though inevitably there will be a hundred examples of where I haven’t.</p>
+
+<p>Whilst not all rules apply to all situations, and no rule applies in every case, following as many of these as you can will give you a better chance of producing flexible, well-designed, reusable components for yourself and others to enjoy.</p>
+
+<p>You may want to grab a quick summary of the rules, as shown below; I have the full-size version hosted on Flickr.</p>
+
+<p>API Design for iOS components
+If you’re interested in releasing your components for others to use, as I did with MGTileMenu, you may also want to read my article on releasing open source code, which touches on some of these points and also talks about your README file, license choice, and related matters.</p>
+
+<p>I hope you’ve enjoyed this article. If you did, perhaps you’d consider buying a non-attribution license for some of my open source components, or supporting future articles on this blog (and future source code releases) via a donation.</p>
+
+<p>PayPal — The safer, easier way to pay online.
+I’d truly appreciate it.</p>
+
+<p>For more about software and user experience design, along with a multitude of other topics, you should follow me (@mattgemmell) on Twitter. You can also hire me for your own projects.</p>
+
+<p>Now go and make great software.</p>
+
+<p>Twitter Facebook Google+ Email
+My writing is supported by readers like you.
+Any contribution helps enormously.
+My thanks to SupportKit for sponsoring my writing this week.
+(Interested in sponsorship? Read this.)
+« MGTileMenuiPhoto iPad tooltips PSD »
+Copyright © 2014 Matt Gemmell Twitter Archive RSS</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[糟糕的测试]]></title>
