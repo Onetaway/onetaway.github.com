@@ -7,7 +7,7 @@
 	<meta name="author" content="Onet away">
 
 	
-	<meta name="description" content="翻译 | Comments API设计 API设计 本文翻译自 Matt Gemmell 的经典博文，想阅读英文原版的同学请直接点击这里。下面开始正文内容。 我在开发中做的最多的一件事就是为可重用的组件设计 API。这些组件通常都是给 iOS 用的(尽管有时候，它们也适用于 OS X)，通常是 &hellip;">
+	<meta name="description" content="读书笔记 | Comments 《结网》 读书笔记 写在前面—Developers need to know > what you thought 辞职后，就想要做一款供程序员用起来舒服的 GitHub 客户端，其实我的最开始的初衷只是想实现 GitHub 上的 contributions &hellip;&#8221;>
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,87 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-28T11:48:12+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/du-shu-bi-ji/'>读书笔记</a>
+
+
+</div>
+		
+		
+          | <a href="/blog/2014/09/28/%3C%3Cjie-wang-%3E%3E-du-shu-bi-ji/#comments">Comments</a>
+         
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/09/28/%3C%3Cjie-wang-%3E%3E-du-shu-bi-ji/" itemprop="url">《结网》 读书笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>写在前面—Developers need to know > what you thought</h2>
+
+<p>辞职后，就想要做一款供程序员用起来舒服的 GitHub 客户端，其实我的最开始的初衷只是想实现 GitHub 上的 contributions 的绿色小方块，让程序员们在 iPhone 上也能有这样美好的体验，让程序员在年底晒 GitHub 的时候更方便更有意思，而且也想使用 Swift 练练手。于是，我就想了既然这个都做了，那不如就做一个完整的客户端吧，真是逼(no)格(zuo)尽(no)显(die)。</p>
+
+<p>于是乎，就干起来了。但是当我真的要着手的时候，发现完全无从下手啊。那一刻，我才明白程序员要会的不仅仅是写程序，于是，我就谷歌、知乎各种刷，终于，我发现了一本适合产品经理入门，并且大家觉得都还不错的书——《结网》。于是，我就花了一天时间，基本算翻完了。我也确实觉得写的不错，遂，写此读书笔记，和大家一起聊聊 beyond the develop 的故事。</p>
+
+<h2>正文</h2>
+
+<p>以前我一直觉得，角色应该各司其职，产品经理就应该专注产品，设计师就应该专注设计，程序员就应该专注写程序。但是，现实根本不是这样。这点在移动端 App 上更加明显。一个程序员某一天突然有了一个 idea，于是乎就很想把它实现，这个时候，他就完全充当了上述三个人的角色。我们同样也知道，现在有很多 iOS 独立开发者，他们的设计等等也都是自己做的。因此，我觉得一个合格的移动端开发者应该具备的素质有：构建产品的能力，基本的设计能力，编码能力。下面，我就说说我认为开发者应该具备产品经理素质的具体表现。</p>
+
+<h3>产品设计文档</h3>
+
+<p>程序员需要能够画出产品设计文档，包括：<strong>结构图</strong>、<strong>线框图</strong>和<strong>描述表</strong>。</p>
+
+<p><strong>结构图</strong>描述了整个程序的结构以及模块划分，可以使用思维导图工具(比如：MindManager等)进行创作。描述结构图的时候需要注意 <code>MECE原则</code>(读作：me-see)，是 Mutually Exclusive Collectively Exhaustive 的缩写。意思就是<code>相互独立，完全穷尽</code>。繁杂的信息经过 MECE原则处理后，呈现出分类清晰并且穷尽的结果，降低了理解成本。</p>
+
+<p>明确了结构之后，我们就需要细化每个页面了，这里我们要使用的是线框图。<strong>线框图</strong>描述了一个程序中所需要包含的基础元素及其在这个界面中的布局。线框图的制作工具也很多，比如 Axure 等等。画完了线框图，我们就需要描述表了。</p>
+
+<p><strong>描述表</strong>只包含一个界面中需要展示的元素和背后的逻辑，并<em>不</em>包含这些元素在页面中的布局。它的主要好处有二：第一，将你要显示的元素和元素的布局分割开来；第二、向开发人员讲述背后的逻辑，便于开发实现。</p>
+
+<p>优秀的产品设计文档应该具备以下特性：</p>
+
+<ol>
+<li>保持简短。保持简短的重要手段是将需求与非需求分离。保持需求的简短，将非需求的部分放到图表、附录或者 FAQ 中。</li>
+<li>尽可能地消灭错误。可以使用 Wiki 写文档。</li>
+<li>别对他人(主要指研发人员)的工作指手画脚。</li>
+<li>用适当的表述方式展现需求。比如，如果用文字说不清楚，那就用表格做解释。</li>
+<li>使用肯定、明确的词语。不要出现“也许”、“可能”这样的词语。</li>
+</ol>
+
+
+<h3>关注用户体验</h3>
+
+<p>记住一句话：用户体验影响产品口碑，产品口碑影响产品成败。
+从哪些方面关注用户体验，记住“三个不要”：</p>
+
+<ul>
+<li>不要让我等</li>
+<li>不要让我想</li>
+<li>不要让我烦</li>
+</ul>
+
+
+<p>这就是我觉得最重要的几点了，起身走近窗户，九月桂花分外香。</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
