@@ -23,11 +23,11 @@ categories: 读书笔记
 **结构图**描述了整个程序的结构以及模块划分，可以使用思维导图工具(比如：MindManager等)进行创作。描述结构图的时候需要注意 `MECE原则`(读作：me-see)，是 Mutually Exclusive Collectively Exhaustive 的缩写。意思就是`相互独立，完全穷尽`。繁杂的信息经过 MECE原则处理后，呈现出分类清晰并且穷尽的结果，降低了理解成本。思维导图示例如下：
 
 
-{% img /images/mindPicture.png %}
+{% img  https://github.com/Onetaway/onetaway.github.com/blob/master/images/wireFrame.png %}
 
 明确了结构之后，我们就需要细化每个页面了，这里我们要使用的是线框图。**线框图**描述了一个程序中所需要包含的基础元素及其在这个界面中的布局。线框图的制作工具也很多，比如 Axure 等等，线框图示例如下。画完了线框图，我们就需要描述表了。
 
-{% img /images/wireFrame.png %}
+{% img  /images/wireFrame.png %}
 
 **描述表**只包含一个界面中需要展示的元素和背后的逻辑，并*不*包含这些元素在页面中的布局。它的主要好处有二：第一，将你要显示的元素和元素的布局分割开来；第二、向开发人员讲述背后的逻辑，便于开发实现。
 
