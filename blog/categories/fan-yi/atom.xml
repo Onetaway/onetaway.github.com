@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 翻译 | Coding is Art]]></title>
   <link href="http://Onetaway.github.io/blog/categories/fan-yi/atom.xml" rel="self"/>
   <link href="http://Onetaway.github.io/"/>
-  <updated>2014-09-28T13:48:29+08:00</updated>
+  <updated>2014-09-28T14:37:56+08:00</updated>
   <id>http://Onetaway.github.io/</id>
   <author>
     <name><![CDATA[Onet away]]></name>
@@ -62,32 +62,32 @@
 <p>我们必须明智且审慎地设计这些。当你在思考 API 的时候，有两个关键的问题：</p>
 
 <ul>
-<li>What is the control?</li>
+<li>控件是什么？</li>
 </ul>
 
 
-<p>This influences the interface and convenience methods. Is it a button? A slider? Your interface is obvious. Your convenience methods will follow the standard semantics of the control.</p>
+<p>这影响着接口和便捷方法。它是一个按钮？或者是一个滚动条？你的接口是很明显的。你的便捷方法将会遵循控件的标准语意。</p>
 
 <ul>
-<li>What is the control like?</li>
+<li>控件像什么？</li>
 </ul>
 
 
-<p>This influences the delegate and/or data-source model and notifications. If it’s a new type of control, is it essentially very similar to something else? An outline view is a linear table. A calendar widget is a date-picker. A collection of commands presented with a unified presentation is a menu.</p>
+<p>这影响着代理、数据源模型以及通知。如果它是一种新的控件，那它本质上有和其他控件相似的地方么？一个大纲视图是一个线性表。一个日历小工具是一个日期选择器。命令的集合以统一的表现形式显示在菜单栏里。</p>
 
-<p>Our core goal is consistency with existing components and models, so that we can turn an unfamiliar control into something the developer already understands. Use standard APIs, models, and patterns wherever possible (and that’s almost always). Familiarity and intuitiveness are just as important at code level as they are for the end user.</p>
+<p>我们的核心目标是同现有的组件和模型保持一致，只有这样，我们才能将不熟悉的控件转换为开发者已经熟知的东西。尽量在任何地方使用标准的 API，模型和模式。熟悉感和直觉在代码级的重要性与在用户级的重要性一样。</p>
 
-<p>Let’s look at the four components of the component API mentioned above.</p>
+<p>让我们看一下上面提到的组件 API 中的四个要素。</p>
 
-<p>Class interface</p>
+<h3>类的接口</h3>
 
-<p>Here’s the interface file for MGTileMenu.</p>
+<p>这里是 <a href="https://github.com/mattgemmell/MGTileMenu/blob/master/MGTileMenu/MGTileMenuController.h">MGTileMenu 的接口文件</a>。</p>
 
-<p>Before we even start talking about the specifics of the interface, we have a couple of over-arching rules:</p>
+<p>在我们开始讨论特定的接口之前，我们先来看看一些重要的准则。</p>
 
-<p>Rule 1: Use the local dialect</p>
+<h2>准则1：使用本平台语言</h2>
 
-<p>One the most common mistakes I see in API design is the use of foreign conventions. APIs belong to a platform and a developer ecosystem. You simply can’t use whatever idioms and architectures you’re used to from a different platform; to do so is to pollute your current codebase and to damage the productivity of your fellow developers.</p>
+<p>在 API 设计中我见到的最普遍的错误是使用<em>其他平台的习惯</em>。API 属于一个平台和一个开发者生态系统。你不能使用你曾经熟悉的与本平台不同的平台的习语和架构，那样做，只会污染你当前的代码，并且降低后继开发者生产力。</p>
 
 <p>Learn your target platform’s conventions before coding. For example, on iOS or OS X, don’t use exceptions for control flow. Name your methods in an appropriate manner (which usually means sufficiently verbose, but should also of course be sufficiently succinct).</p>
 
