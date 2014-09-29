@@ -293,8 +293,10 @@
 
 <p>如果某些东西需要被设置，别想着以后再设置，现在就设置它，立刻马上，如果你没有得到想要的东西，那么就返回 nil。</p>
 
-<pre><code>1 -(id)initWithDelegate:(id&lt;MGTileMenuDelegate&gt;)theDelegate; // required parameter; cannot be nil.
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithDelegate:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">MGTileMenuDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">theDelegate</span><span class="p">;</span> <span class="c1">// required parameter; cannot be nil.</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>准则4：允许获取初始化函数的参数</h2>
 
@@ -302,8 +304,10 @@
 
 <p>这是前一个准则的推论：记住不要吞没这些参数。通过 properties 来获取它们，</p>
 
-<pre><code>1 @property (nonatomic, weak, readonly) id&lt;MGTileMenuDelegate&gt; delegate; // must be specified via initializer method.
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">weak</span><span class="p">,</span> <span class="k">readonly</span><span class="p">)</span> <span class="kt">id</span><span class="o">&lt;</span><span class="n">MGTileMenuDelegate</span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span> <span class="c1">// must be specified via initializer method.</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>前面这两个例子揭示了非常重要的一点。</p>
 
@@ -317,10 +321,14 @@
 For professionals. Assume things that are safe to assume. Don’t waffle.
 Particularly, you should briefly note default values beside properties or accessors; it’s much easier to scan those in the header file than to try to locate your initialisation code in the implementation.</p>
 
-<pre><code>1 @property (nonatomic) CGGradientRef tileGradient; // gradient to apply to tile backgrounds (default: a lovely blue)
-2 @property (nonatomic) NSInteger selectionBorderWidth; // default: 5 pixels
-3 @property (nonatomic) CGGradientRef selectionGradient; // default: a subtle white (top) to grey (bottom) gradient
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGGradientRef</span> <span class="n">tileGradient</span><span class="p">;</span> <span class="c1">// gradient to apply to tile backgrounds (default: a lovely blue)</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSInteger</span> <span class="n">selectionBorderWidth</span><span class="p">;</span> <span class="c1">// default: 5 pixels</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGGradientRef</span> <span class="n">selectionGradient</span><span class="p">;</span> <span class="c1">// default: a subtle white (top) to grey (bottom) gradient</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Rule 6: Get up and running in 3 lines</p>
 
@@ -337,15 +345,24 @@ Particularly, you should briefly note default values beside properties or access
 
 <p>That should be it. Anything substantially more onerous is a code smell. Here are the relevant lines from MGTileMenu’s demo app:</p>
 
-<pre><code>1 // Instantiate.
-2 tileController = [[MGTileMenuController alloc] initWithDelegate:self];
-3
-4 // Configure.
-5 tileController.dismissAfterTileActivated = NO; // to make it easier to play with in the demo app.
-6
-7 // Display.
-8 [tileController displayMenuCenteredOnPoint:loc inView:self.view];
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Instantiate.</span>
+</span><span class='line'><span class="n">tileController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MGTileMenuController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithDelegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Configure.</span>
+</span><span class='line'><span class="n">tileController</span><span class="p">.</span><span class="n">dismissAfterTileActivated</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="c1">// to make it easier to play with in the demo app.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Display.</span>
+</span><span class='line'><span class="p">[</span><span class="n">tileController</span> <span class="nl">displayMenuCenteredOnPoint</span><span class="p">:</span><span class="n">loc</span> <span class="nl">inView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>准则7：一个臃肿的示例通常意味着一个不好的组件</h2>
 
@@ -372,13 +389,20 @@ Particularly, you should briefly note default values beside properties or access
 
 <p>The specifics depend on the component, but just try to consider the relationships between properties, from the point of view of either appearance or functionality. Empathise with the developer. Be flexible, without abandoning the identity of the component.</p>
 
-<pre><code>1 @property (nonatomic) BOOL dismissAfterTileActivated; // automatically dismiss menu after a tile is activated (YES; default)
-2 @property (nonatomic) BOOL rightHanded; // leave gap for right-handed finger (YES; default) or left-handed (NO)
-3
-4 @property (nonatomic) NSInteger tileSide; // width and height of each tile, in pixels (default 72 pixels)
-5 @property (nonatomic) NSInteger tileGap; // horizontal and vertical gaps between tiles, in pixels (default: 20 pixels)
-6 @property (nonatomic) CGFloat cornerRadius; // corner radius for bezel and all tiles, in pixels (default: 12.0 pixels)
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">dismissAfterTileActivated</span><span class="p">;</span> <span class="c1">// automatically dismiss menu after a tile is activated (YES; default)</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">rightHanded</span><span class="p">;</span> <span class="c1">// leave gap for right-handed finger (YES; default) or left-handed (NO)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSInteger</span> <span class="n">tileSide</span><span class="p">;</span> <span class="c1">// width and height of each tile, in pixels (default 72 pixels)</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="bp">NSInteger</span> <span class="n">tileGap</span><span class="p">;</span> <span class="c1">// horizontal and vertical gaps between tiles, in pixels (default: 20 pixels)</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">cornerRadius</span><span class="p">;</span> <span class="c1">// corner radius for bezel and all tiles, in pixels (default: 12.0 pixels)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Let common sense be your guide. Decide what options will serve 70% or so of the usage situations you can think of, and provide those options. Let your delegate methods and code structure serve the rest.</p>
 
@@ -388,11 +412,16 @@ Particularly, you should briefly note default values beside properties or access
 
 <p>It’s pretty much always more properties, and fewer ‘actions’ (again, that’s not actions in the Interface Builder sense). MGTileMenu has an initializer, and four actual for-public-use methods (one of which is a convenience that calls another). In terms of customisation points, it has four times as many. I think that’s a good ratio, and leads to components that are both concise in actual functionality, but also flexible in customisation.</p>
 
-<pre><code>1 - (id)initWithDelegate:(id&lt;MGTileMenuDelegate&gt;)theDelegate; // required parameter; cannot be nil.
-2 - (CGPoint)displayMenuPage:(NSInteger)pageNum centeredOnPoint:(CGPoint)centerPt inView:(UIView *)parentView; // zero-based pageNum
-3 - (void)dismissMenu;
-4 - (void)switchToPage:(NSInteger)pageNum; // zero-based pageNum
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithDelegate:</span><span class="p">(</span><span class="kt">id</span><span class="o">&lt;</span><span class="n">MGTileMenuDelegate</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">theDelegate</span><span class="p">;</span> <span class="c1">// required parameter; cannot be nil.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nf">displayMenuPage:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pageNum</span> <span class="nf">centeredOnPoint:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">centerPt</span> <span class="nf">inView:</span><span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">parentView</span><span class="p">;</span> <span class="c1">// zero-based pageNum</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dismissMenu</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">switchToPage:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pageNum</span><span class="p">;</span> <span class="c1">// zero-based pageNum</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>准则10：在你的控件中使用控件</h2>
 
@@ -410,10 +439,14 @@ Particularly, you should briefly note default values beside properties or access
 
 <p>For example, in MGTileMenu I created these convenience functions:</p>
 
-<pre><code>1 CGRect MGMinimallyOverlapRects(CGRect inner, CGRect outer, CGFloat padding);
-2
-3 CGGradientRef MGCreateGradientWithColors(UIColor *topColorRGB, UIColor *bottomColorRGB); // assumes colors in RGB colorspace
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">CGRect</span> <span class="nf">MGMinimallyOverlapRects</span><span class="p">(</span><span class="bp">CGRect</span> <span class="n">inner</span><span class="p">,</span> <span class="bp">CGRect</span> <span class="n">outer</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">padding</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CGGradientRef</span> <span class="nf">MGCreateGradientWithColors</span><span class="p">(</span><span class="bp">UIColor</span> <span class="o">*</span><span class="n">topColorRGB</span><span class="p">,</span> <span class="bp">UIColor</span> <span class="o">*</span><span class="n">bottomColorRGB</span><span class="p">);</span> <span class="c1">// assumes colors in RGB colorspace</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The first helps me shift a tile menu so that it’s fully visible within its parent view (which might be handy for another developer, if they’re providing ancillary UI related to the menu), and the second returns a Core Graphics gradient from two UIColors, which I used when setting a default background for the tiles (and another developer may find handy when implementing MGTileMenu’s delegate protocol, to give tiles custom gradients).</p>
 
@@ -423,9 +456,12 @@ Particularly, you should briefly note default values beside properties or access
 
 <p>It’s fine. It’s genuinely OK to do that. What’s not OK, though, is needlessly putting mysterious raw values throughout your code, and it’s especially not OK to expose that in the API. If you’re exposing magic, dress them up for consumption. Use #defines or a constant or something. Just make them presentable and understandable.</p>
 
-<pre><code>1 // Used for the page-switching tile in methods expecting a tile-number.
-2 #define MG_PAGE_SWITCHING_TILE_INDEX -1
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Used for the page-switching tile in methods expecting a tile-number.</span>
+</span><span class='line'><span class="cp">#define MG_PAGE_SWITCHING_TILE_INDEX -1</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Delegate and data-source protocols</p>
 
@@ -468,18 +504,25 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>MGTileMenu has five required methods, four of which are data-source methods:</p>
 
-<pre><code>1 - (NSInteger)numberOfTilesInMenu:(MGTileMenuController *)tileMenu; // in total (will be shown in groups of up to 5 per page)
-2 - (UIImage *)imageForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
-3 - (NSString *)labelForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
-4 - (NSString *)descriptionForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nf">numberOfTilesInMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// in total (will be shown in groups of up to 5 per page)</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageForTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span> <span class="nf">inMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">labelForTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span> <span class="nf">inMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">descriptionForTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span> <span class="nf">inMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The first two follow the One True Data-Source Protocol. The third and fourth do too, but they also expose my politics: I think that software should be accessible, and I’m forcing you to supply a label and hint for each tile for VoiceOver to read. I’m comfortable with it.</p>
 
 <p>There’s also one delegate method proper:</p>
 
-<pre><code>1 - (void)tileMenu:(MGTileMenuController *)tileMenu didActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">didActivateTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>That one is required because it’s how you find out that a tile was activated. If you’re not willing to pay attention to that, MGTileMenu will do nothing useful, and you might as well not be using it at all. So, it’s required.</p>
 
@@ -531,9 +574,12 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>Highlighting is certainly an example of an optional set of delegate methods, but they’re important to have, and almost always trivial to implement.</p>
 
-<pre><code>1 -(void)tileMenu:(MGTileMenuController *)tileMenu didSelectTile:(NSInteger)tileNumber; // zero-based tileNumber
-2 -(void)tileMenu:(MGTileMenuController *)tileMenu didDeselectTile:(NSInteger)tileNumber; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">didSelectTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">didDeselectTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Rule 18: Optional methods aren’t a commitment</p>
 
@@ -557,33 +603,44 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>This:</p>
 
-<pre><code>1 - (void)tileMenu:(MGTileMenuController *)tileMenu didActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">didActivateTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Not this:</p>
 
-<pre><code>1 - (void)tileMenuDidActivateTile:(NSInteger)tileNumber; // zero-based tileNumber
-2 // Um, WHICH menu?
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenuDidActivateTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span><span class='line'><span class="c1">// Um, WHICH menu?</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Rule 20: Put distinguishing params first in query methods</p>
 
 <p>The One True Data-Source Protocol should always have query methods such that the most interesting thing goes first. The specific quality or property you’re requesting a value for. Like this:</p>
 
-<pre><code>1 - (UIImage *)imageForTile:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageForTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span> <span class="nf">inMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>不是像这样：</p>
 
-<pre><code>1 - (UIImage *)tileMenu:(MGTileMenuController *)tileMenu imageForTile:(NSInteger)tileNumber;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">imageForTile:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The return type should flow naturally into the first part of the method name, without causing surprise. Data-source protocols often have many similarly-named methods, so keep the unique and interesting parts at the very start. Easier to read, and easier to autocomplete.</p>
 
 <p>Some people have pointed out that Apple’s UITableViewDataSource protocol doesn’t do it that way, and instead puts the sender first, for example:</p>
 
-<pre><code>1 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="bp">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">numberOfRowsInSection:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">section</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>All I can say is: I’m aware of the difference. I stand by my argument.</p>
 
@@ -591,8 +648,10 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>The One True Delegate Protocol, however, isn’t for queries but rather for notifications. In this situation, you put the sender first (following our “say who’s talking” rule above).</p>
 
-<pre><code>1 - (void)tileMenu:(MGTileMenuController *)tileMenu willSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">willSwitchToPage:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pageNumber</span><span class="p">;</span> <span class="c1">// zero-based pageNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This follows how an interaction would go between two people having a conversation. You wouldn’t just jump in and say “She’s going to be late,” because the other person would have to ask “Who?”</p>
 
@@ -613,8 +672,10 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>Instead, I went for something simpler and more understandable, if unconventionally-named:</p>
 
-<pre><code>1 - (BOOL)isTileEnabled:(NSInteger)tileNumber inMenu:(MGTileMenuController *)tileMenu; // zero-based tileNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isTileEnabled:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">tileNumber</span> <span class="nf">inMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span> <span class="c1">// zero-based tileNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>We can debate the specific wording, but if you encountered that method you’d know what it was for and how to use it right away. To me, that’s better.</p>
 
@@ -636,15 +697,21 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>代理方法：</p>
 
-<pre><code>1 - (void)tileMenuWillDisplay:(MGTileMenuController *)tileMenu;
-2 - (void)tileMenuDidDisplay:(MGTileMenuController *)tileMenu;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenuWillDisplay:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenuDidDisplay:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>以及相应的通知：</p>
 
-<pre><code>1 extern NSString *MGTileMenuWillDisplayNotification; // menu will be shown
-2 extern NSString *MGTileMenuDidDisplayNotification; // menu has been shown
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">extern</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">MGTileMenuWillDisplayNotification</span><span class="p">;</span> <span class="c1">// menu will be shown</span>
+</span><span class='line'><span class="k">extern</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">MGTileMenuDidDisplayNotification</span><span class="p">;</span> <span class="c1">// menu has been shown</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>准则24：大方地对待通知的用户信息</h2>
 
@@ -654,17 +721,25 @@ This is also known as the Should, Will, Did protocol pattern, and it ties neatly
 
 <p>代理方法：</p>
 
-<pre><code>1 - (void)tileMenu:(MGTileMenuController *)tileMenu willSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
-2 - (void)tileMenu:(MGTileMenuController *)tileMenu didSwitchToPage:(NSInteger)pageNumber; // zero-based pageNumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">willSwitchToPage:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pageNumber</span><span class="p">;</span> <span class="c1">// zero-based pageNumber</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tileMenu:</span><span class="p">(</span><span class="n">MGTileMenuController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tileMenu</span> <span class="nf">didSwitchToPage:</span><span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nv">pageNumber</span><span class="p">;</span> <span class="c1">// zero-based pageNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>以及相应的通知</p>
 
-<pre><code>1 // The following notifications have a user info key "MGPageNumber" with an NSNumber (integer, zero-based) value.
-2 #define MGPageNumberKey @"MGPageNumber"
-3 extern NSString *MGTileMenuWillSwitchToPageNotification; // menu will switch to the given page
-4 extern NSString *MGTileMenuDidSwitchToPageNotification; // menu did switch to the given page
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// The following notifications have a user info key &quot;MGPageNumber&quot; with an NSNumber (integer, zero-based) value.</span>
+</span><span class='line'><span class="cp">#define MGPageNumberKey @&quot;MGPageNumber&quot;</span>
+</span><span class='line'><span class="k">extern</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">MGTileMenuWillSwitchToPageNotification</span><span class="p">;</span> <span class="c1">// menu will switch to the given page</span>
+</span><span class='line'><span class="k">extern</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">MGTileMenuDidSwitchToPageNotification</span><span class="p">;</span> <span class="c1">// menu did switch to the given page</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Rule 25: Test the hell out of it</p>
 
