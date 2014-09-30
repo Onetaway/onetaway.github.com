@@ -1,0 +1,275 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>core data (1) - Coding is Art</title>
+	<meta name="author" content="Onet away">
+
+	
+	<meta name="description" content="Core Data (1) Core Data 系列(1)—技术概览 本系列翻译自苹果官方的《Core Data Programming Guide》，旨在提高自身技术的同时也作为技术分享，便于自己加深理解。本文是第一部分——技术概览。 本文介绍了 Core Data &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Coding is Art" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://Onetaway.github.io/blog/2014/09/30/core-data-1/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		document.write("<img src='/images/profile.png' alt='Profile Picture' style='width: 160px;' />");
+	</script>
+</div>
+<h1><a href="/">Coding is Art</a></h1>
+<p class="subtitle">写 给人阅读的代码</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/onetaway" title="Weibo">Weibo</a>
+		
+		
+		
+		<a class="google" href="https://plus.google.com/112430088622939472702/posts" rel="author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/Onetaway" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/Onetaway" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+<hgroup>
+  <h1><a href="/">Coding is Art</a></h1>
+  
+    <h2>写 给人阅读的代码</h2>
+  
+</hgroup>
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Core Data (1)</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>Core Data 系列(1)—技术概览</h2>
+
+<p>本系列翻译自苹果官方的《Core Data Programming Guide》，旨在提高自身技术的同时也作为技术分享，便于自己加深理解。本文是第一部分——技术概览。</p>
+
+<p>本文介绍了 Core Data 的一些基本特性以及为何要使用 Core Data。</p>
+
+<h3>Core Data 特性</h3>
+
+<p>Core Data 框架为日常的对象生命周期管理、对象图管理和持久化，提供了通用的、自动化的解决方案。它的特性包括：</p>
+
+<ul>
+<li>变化跟踪以及支持撤销操作</li>
+</ul>
+
+
+<p>Core Data 提供了内建的撤销和重做操作，这些不仅仅是基本的文本编辑。</p>
+
+<ul>
+<li>关系维持</li>
+</ul>
+
+
+<p>Core Data 管理变化的传播，包括维持关系和对象的一致性。</p>
+
+<p>Futures (faulting).
+Core Data can reduce the memory overhead of your program by lazily loading objects. It also supports partially materialized futures, and copy-on-write data sharing.</p>
+
+<p>Core Data 通过延迟加载对象减少了程序的内存使用。</p>
+
+<ul>
+<li>属性值的自动校验</li>
+</ul>
+
+
+<p>Core Data 的被管理对象(managed objects)扩展了标准的 KVC 验证方法，确保非法的值只存在于可接受的范围内，这样使得值的连接是有意义的。</p>
+
+<ul>
+<li>模式迁移</li>
+</ul>
+
+
+<p>Dealing with a change to your application’s schema can be difficult, in terms of both development effort and runtime resources. Core Data’s schema migration tools simplify the task of coping with schema changes, and in some cases allow you to perform extremely efficient in-place schema migration.</p>
+
+<p>Optional integration with the application’s controller layer to support user interface synchronization.
+Core Data provides the NSFetchedResultsController object on iOS, and integrates with Cocoa Bindings on OS X.</p>
+
+<ul>
+<li>自动支持 KVC 和 KVO</li>
+</ul>
+
+
+<p>In addition to synthesizing key-value coding and key-value observing compliant accessor methods for attributes, Core Data synthesizes the appropriate collection accessors for to-many relationships.</p>
+
+<p>Grouping, filtering, and organizing data in memory and in the user interface.
+Automatic support for storing objects in external data repositories.
+Sophisticated query compilation.
+Instead of writing SQL, you can create complex queries by associating an NSPredicate object with a fetch request. NSPredicate provides support for basic functions, correlated subqueries, and other advanced SQL. With Core Data, it also supports proper Unicode, locale-aware searching, sorting, and regular expressions.</p>
+
+<ul>
+<li>合并策略</li>
+</ul>
+
+
+<p>Core Data 提供了内建的版本跟踪和锁机制，来自动解决多写者产生的冲突。</p>
+
+<h3>你为什么应该使用 Core Data</h3>
+
+<p>有很多理由让你使用 Core Data。一个最简单的度量是，使用 Core Data，你用来支持应用程序的 model 层代码将会减少 50% 到 70%。这主要归功于上面列出的特性，Core Data 提供的特性使你不必再自己实现一遍了。而且你也不必测试那些特性，特别低，也不用你去优化它们。</p>
+
+<p>Core Data has a mature code base whose quality is maintained through unit tests, and is used daily by millions of customers in a wide variety of applications. The framework has been highly optimized over several releases. It takes advantage of information provided in the model and runtime features not typically employed in application-level code. Moreover, in addition to providing excellent security and error-handling, it offers best memory scalability of any competing solution. Put another way: you could spend a long time carefully crafting your own solution optimized for a particular problem domain, and not gain any performance advantage over what Core Data offers for free for any application.</p>
+
+<p>In addition to the benefits of the framework itself, Core Data integrates well with the OS X tool chain. The model design tools allow you to create your schema graphically, quickly and easily. You can use templates in the Instruments application to measure Core Data’s performance, and to debug various problems. On OS X desktop, Core Data also integrates with Interface Builder to allow you to create user interfaces from your model. These aspects help to further shorten your application design, implementation, and debugging cycles.</p>
+
+<h3>Core Data 不是什么</h3>
+
+<p>介绍过了 Core Data 是什么，它可以做什么，以及它为什么有用之后，同样很有必要修正一些关于 Core Data 的常见的认知错误，并阐述一下 Core Data 不是什么。</p>
+
+<ul>
+<li>Core Data 不是关系型数据库，也不是关系型数据库管理系统(RDBMS)</li>
+</ul>
+
+
+<p>Core Data 提供了一套基础设施来管理修改、保存对象以及读取对象。它可以使用 SQLite 作为持久存储类型的一种。尽管它本身不是数据库。(为了强调这一点：你可以在你的程序中只使用 in-memory 存储，但是一定不要将它们存储到任何文件中。)</p>
+
+<ul>
+<li>Core Data 不是银弹</li>
+</ul>
+
+
+<p>使用 Core Data 并不意味着我们不用编写代码了。尽管，你可以只用 Xcode 对象模型工具以及 Interface Builder就可以创建一个复杂的应用程序，但是对于现实世界中的应用程序，你仍然需要编写代码。</p>
+
+<ul>
+<li>Core Data 不依赖于 Cocoa 绑定</li>
+</ul>
+
+
+<p>Core Data 很好地集成了 Cocoa bindings 并且使用了同样的技术，一起使用它们可以减少你的代码量，但是，没有 Cocoa binding 同样可以使用 Core Data。你可以创建一个没有用户界面的 Core Data 应用程序</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+	
+	<a class="addthis_button_sinaweibo"></a>
+	
+	
+	
+	<a class="addthis_button_twitter"></a>
+	
+	
+	
+	<a class="addthis_button_compact"></a>
+	<a class="addthis_counter addthis_bubble_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+
+
+
+  <section>
+    <h1>发表评论</h1>
+    <div id="comments" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"onetaway"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end --></div>
+  </section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Onet away -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6a5ef2081fb49e0f52664922edcbbe58' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-54780065-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

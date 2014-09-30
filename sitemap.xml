@@ -3,6 +3,14 @@
   
   
   <url>
+    <loc>http://Onetaway.github.io/blog/2014/09/30/core-data-1/</loc>
+    
+    <lastmod>2014-09-30T19:52:31+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://Onetaway.github.io/blog/2014/09/28/%3C%3Cjie-wang-%3E%3E-du-shu-bi-ji/</loc>
     
     <lastmod>2014-09-28T11:48:12+08:00</lastmod>
@@ -29,14 +37,14 @@
   
   <url>
     <loc>http://Onetaway.github.io/blog/archives/</loc>
-    <lastmod>2014-09-29T10:35:29+08:00</lastmod>
+    <lastmod>2014-09-30T21:02:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://Onetaway.github.io/</loc>
-    <lastmod>2014-09-29T10:35:29+08:00</lastmod>
+    <lastmod>2014-09-30T21:02:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

@@ -4,7 +4,7 @@
   <title><![CDATA[Coding is Art]]></title>
   <link href="http://Onetaway.github.io/atom.xml" rel="self"/>
   <link href="http://Onetaway.github.io/"/>
-  <updated>2014-09-29T10:35:29+08:00</updated>
+  <updated>2014-09-30T21:02:48+08:00</updated>
   <id>http://Onetaway.github.io/</id>
   <author>
     <name><![CDATA[Onet away]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[core data (1)]]></title>
+    <link href="http://Onetaway.github.io/blog/2014/09/30/core-data-1/"/>
+    <updated>2014-09-30T19:52:31+08:00</updated>
+    <id>http://Onetaway.github.io/blog/2014/09/30/core-data-1</id>
+    <content type="html"><![CDATA[<h2>Core Data 系列(1)—技术概览</h2>
+
+<p>本系列翻译自苹果官方的《Core Data Programming Guide》，旨在提高自身技术的同时也作为技术分享，便于自己加深理解。本文是第一部分——技术概览。</p>
+
+<p>本文介绍了 Core Data 的一些基本特性以及为何要使用 Core Data。</p>
+
+<h3>Core Data 特性</h3>
+
+<p>Core Data 框架为日常的对象生命周期管理、对象图管理和持久化，提供了通用的、自动化的解决方案。它的特性包括：</p>
+
+<ul>
+<li>变化跟踪以及支持撤销操作</li>
+</ul>
+
+
+<p>Core Data 提供了内建的撤销和重做操作，这些不仅仅是基本的文本编辑。</p>
+
+<ul>
+<li>关系维持</li>
+</ul>
+
+
+<p>Core Data 管理变化的传播，包括维持关系和对象的一致性。</p>
+
+<p>Futures (faulting).
+Core Data can reduce the memory overhead of your program by lazily loading objects. It also supports partially materialized futures, and copy-on-write data sharing.</p>
+
+<p>Core Data 通过延迟加载对象减少了程序的内存使用。</p>
+
+<ul>
+<li>属性值的自动校验</li>
+</ul>
+
+
+<p>Core Data 的被管理对象(managed objects)扩展了标准的 KVC 验证方法，确保非法的值只存在于可接受的范围内，这样使得值的连接是有意义的。</p>
+
+<ul>
+<li>模式迁移</li>
+</ul>
+
+
+<p>Dealing with a change to your application’s schema can be difficult, in terms of both development effort and runtime resources. Core Data’s schema migration tools simplify the task of coping with schema changes, and in some cases allow you to perform extremely efficient in-place schema migration.</p>
+
+<p>Optional integration with the application’s controller layer to support user interface synchronization.
+Core Data provides the NSFetchedResultsController object on iOS, and integrates with Cocoa Bindings on OS X.</p>
+
+<ul>
+<li>自动支持 KVC 和 KVO</li>
+</ul>
+
+
+<p>In addition to synthesizing key-value coding and key-value observing compliant accessor methods for attributes, Core Data synthesizes the appropriate collection accessors for to-many relationships.</p>
+
+<p>Grouping, filtering, and organizing data in memory and in the user interface.
+Automatic support for storing objects in external data repositories.
+Sophisticated query compilation.
+Instead of writing SQL, you can create complex queries by associating an NSPredicate object with a fetch request. NSPredicate provides support for basic functions, correlated subqueries, and other advanced SQL. With Core Data, it also supports proper Unicode, locale-aware searching, sorting, and regular expressions.</p>
+
+<ul>
+<li>合并策略</li>
+</ul>
+
+
+<p>Core Data 提供了内建的版本跟踪和锁机制，来自动解决多写者产生的冲突。</p>
+
+<h3>你为什么应该使用 Core Data</h3>
+
+<p>有很多理由让你使用 Core Data。一个最简单的度量是，使用 Core Data，你用来支持应用程序的 model 层代码将会减少 50% 到 70%。这主要归功于上面列出的特性，Core Data 提供的特性使你不必再自己实现一遍了。而且你也不必测试那些特性，特别低，也不用你去优化它们。</p>
+
+<p>Core Data has a mature code base whose quality is maintained through unit tests, and is used daily by millions of customers in a wide variety of applications. The framework has been highly optimized over several releases. It takes advantage of information provided in the model and runtime features not typically employed in application-level code. Moreover, in addition to providing excellent security and error-handling, it offers best memory scalability of any competing solution. Put another way: you could spend a long time carefully crafting your own solution optimized for a particular problem domain, and not gain any performance advantage over what Core Data offers for free for any application.</p>
+
+<p>In addition to the benefits of the framework itself, Core Data integrates well with the OS X tool chain. The model design tools allow you to create your schema graphically, quickly and easily. You can use templates in the Instruments application to measure Core Data’s performance, and to debug various problems. On OS X desktop, Core Data also integrates with Interface Builder to allow you to create user interfaces from your model. These aspects help to further shorten your application design, implementation, and debugging cycles.</p>
+
+<h3>Core Data 不是什么</h3>
+
+<p>介绍过了 Core Data 是什么，它可以做什么，以及它为什么有用之后，同样很有必要修正一些关于 Core Data 的常见的认知错误，并阐述一下 Core Data 不是什么。</p>
+
+<ul>
+<li>Core Data 不是关系型数据库，也不是关系型数据库管理系统(RDBMS)</li>
+</ul>
+
+
+<p>Core Data 提供了一套基础设施来管理修改、保存对象以及读取对象。它可以使用 SQLite 作为持久存储类型的一种。尽管它本身不是数据库。(为了强调这一点：你可以在你的程序中只使用 in-memory 存储，但是一定不要将它们存储到任何文件中。)</p>
+
+<ul>
+<li>Core Data 不是银弹</li>
+</ul>
+
+
+<p>使用 Core Data 并不意味着我们不用编写代码了。尽管，你可以只用 Xcode 对象模型工具以及 Interface Builder就可以创建一个复杂的应用程序，但是对于现实世界中的应用程序，你仍然需要编写代码。</p>
+
+<ul>
+<li>Core Data 不依赖于 Cocoa 绑定</li>
+</ul>
+
+
+<p>Core Data 很好地集成了 Cocoa bindings 并且使用了同样的技术，一起使用它们可以减少你的代码量，但是，没有 Cocoa binding 同样可以使用 Core Data。你可以创建一个没有用户界面的 Core Data 应用程序</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[《结网》 读书笔记]]></title>
@@ -185,7 +290,7 @@
 
 <p>Realistically, you won’t always provide separate, standalone documentation for a component. If you don’t provide documentation, your .h files (and demo app) are your docs. They should be suitably written, and by ‘suitably’ I mean:</p>
 
-<p>实际上，</p>
+<p>实际上，你不会总是为某个组件提供分割的，独立的文档。</p>
 
 <p>Sufficiently detailed, but no more so. Be succinct.
 For professionals. Assume things that are safe to assume. Don’t waffle.

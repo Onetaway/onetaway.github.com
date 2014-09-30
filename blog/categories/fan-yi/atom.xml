@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 翻译 | Coding is Art]]></title>
   <link href="http://Onetaway.github.io/blog/categories/fan-yi/atom.xml" rel="self"/>
   <link href="http://Onetaway.github.io/"/>
-  <updated>2014-09-29T10:35:29+08:00</updated>
+  <updated>2014-09-30T21:02:48+08:00</updated>
   <id>http://Onetaway.github.io/</id>
   <author>
     <name><![CDATA[Onet away]]></name>
@@ -125,7 +125,7 @@
 
 <p>Realistically, you won’t always provide separate, standalone documentation for a component. If you don’t provide documentation, your .h files (and demo app) are your docs. They should be suitably written, and by ‘suitably’ I mean:</p>
 
-<p>实际上，</p>
+<p>实际上，你不会总是为某个组件提供分割的，独立的文档。</p>
 
 <p>Sufficiently detailed, but no more so. Be succinct.
 For professionals. Assume things that are safe to assume. Don’t waffle.
